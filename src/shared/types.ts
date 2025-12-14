@@ -1,5 +1,5 @@
 /**
- * A single blog post index entry generated at build time from `posts/**/*.md`.
+ * A single blog post index entry generated at build time from markdown files.
  */
 export type PostIndexItem = {
   title: string;
@@ -20,4 +20,3 @@ export type PostsIndex = {
   generatedAt: string;
   posts: PostIndexItem[];
 };
-

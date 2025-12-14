@@ -257,7 +257,7 @@
   - [ ] 覆盖边界：外链保持原样、非法路径阻断或降级提示（规则需明确）。
 - Acceptance Criteria
   - Given Markdown 中的图片/附件/文章链接，When 渲染，Then 链接均指向可访问的 URL（站内跳转或资源访问）。
-- Dependencies：M0-T1-02（`assets/` 策略）；M1-T2-*（slug/索引）。
+- Dependencies：M0-T1-02（`assets/` 策略）；M1-T2-\*（slug/索引）。
 - Risks：链接规则不一致导致 404；缓解为在 fixture 中覆盖典型链接并加回归测试。
 - Owner Role：FE
 - Estimate：M；Confidence：Med
@@ -385,7 +385,7 @@
   - [ ] 处理渲染失败：展示错误态与返回入口。
 - Acceptance Criteria
   - Given 一篇含封面/标签/代码块的文章，When 打开详情页，Then 展示完整且 TOC 可跳转，并在网络正常时首屏 2s 内可见正文主体；错误分支不白屏。
-- Dependencies：M1-T3-*；M1-T6-03（资源 URL 解析）。
+- Dependencies：M1-T3-\*；M1-T6-03（资源 URL 解析）。
 - Risks：排版与代码块样式冲突；缓解为在 fixture 中覆盖典型内容并回归测试。
 - Owner Role：FE
 - Estimate：M；Confidence：Med

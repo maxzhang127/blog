@@ -7,43 +7,73 @@ type PropfindItem = {
   isCollection: boolean;
 };
 
+/**
+ *
+ */
 function isDebugEnabled(): boolean {
-  return (
-    process.env.WEBDAV_DEBUG === "1" || process.env.WEBDAV_DEBUG === "true"
-  );
+  return process.env.WEBDAV_DEBUG === "1" || process.env.WEBDAV_DEBUG === "true";
 }
 
+/**
+ *
+ * @param value
+ */
 function toArray<T>(value: T | T[] | undefined): T[] {
   if (!value) return [];
   return Array.isArray(value) ? value : [value];
 }
 
+/**
+ *
+ * @param rootDir
+ * @param relativePath
+ */
 function safeJoin(rootDir: string, relativePath: string): string {
   const resolvedRoot = path.resolve(rootDir);
   const resolvedTarget = path.resolve(rootDir, relativePath);
   if (resolvedTarget === resolvedRoot) return resolvedTarget;
   if (!resolvedTarget.startsWith(resolvedRoot + path.sep)) {
-    throw new Error(
-      `Refusing to write outside destinationDir: ${relativePath}`
-    );
+    throw new Error(`Refusing to write outside destinationDir: ${relativePath}`);
   }
   return resolvedTarget;
 }
 
+/**
+ *
+ * @param error
+ */
 function formatUnknownError(error: unknown): string {
   if (error instanceof Error) return error.stack || error.message;
   return String(error);
 }
 
+/**
+ *
+ * @param error
+ */
 function isBodyUnusableError(error: unknown): boolean {
   if (!(error instanceof Error)) return false;
   return /Body is unusable/i.test(error.message);
 }
 
+/**
+ *
+ * @param ms
+ */
 async function delay(ms: number): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/**
+ *
+ * @param options
+ * @param options.url
+ * @param options.username
+ * @param options.appPassword
+ * @param options.method
+ * @param options.headers
+ * @param options.body
+ */
 async function webdavRequest(options: {
   url: URL;
   username: string;
@@ -54,9 +84,7 @@ async function webdavRequest(options: {
 }): Promise<Response> {
   const { url, username, appPassword, method, headers, body } = options;
 
-  const auth = Buffer.from(`${username}:${appPassword}`, "utf8").toString(
-    "base64"
-  );
+  const auth = Buffer.from(`${username}:${appPassword}`, "utf8").toString("base64");
   return fetch(url, {
     method,
     headers: { Authorization: `Basic ${auth}`, ...(headers ?? {}) },
@@ -64,6 +92,17 @@ async function webdavRequest(options: {
   });
 }
 
+/**
+ *
+ * @param options
+ * @param options.url
+ * @param options.username
+ * @param options.appPassword
+ * @param options.method
+ * @param options.headers
+ * @param options.body
+ * @param options.maxAttempts
+ */
 async function webdavRequestText(options: {
   url: URL;
   username: string;
@@ -115,19 +154,23 @@ async function webdavRequestText(options: {
   );
 }
 
-function resolveHrefToSameOriginUrl(options: {
-  baseUrl: URL;
-  currentUrl: URL;
-  href: string;
-}): URL {
+/**
+ *
+ * @param options
+ * @param options.baseUrl
+ * @param options.currentUrl
+ * @param options.href
+ */
+function resolveHrefToSameOriginUrl(options: { baseUrl: URL; currentUrl: URL; href: string }): URL {
   const { baseUrl, currentUrl, href } = options;
   const resolved = new URL(href, currentUrl);
-  return new URL(
-    `${resolved.pathname}${resolved.search}${resolved.hash}`,
-    baseUrl.origin
-  );
+  return new URL(`${resolved.pathname}${resolved.search}${resolved.hash}`, baseUrl.origin);
 }
 
+/**
+ *
+ * @param url
+ */
 function ensureTrailingSlash(url: URL): URL {
   if (url.pathname.endsWith("/")) return url;
   const copy = new URL(url);
@@ -135,9 +178,11 @@ function ensureTrailingSlash(url: URL): URL {
   return copy;
 }
 
-function selectOkPropstat(
-  propstat: unknown
-): Record<string, unknown> | undefined {
+/**
+ *
+ * @param propstat
+ */
+function selectOkPropstat(propstat: unknown): Record<string, unknown> | undefined {
   const propstats = toArray(
     propstat as Record<string, unknown> | Record<string, unknown>[] | undefined
   );
@@ -150,6 +195,14 @@ function selectOkPropstat(
   return propstats[0];
 }
 
+/**
+ *
+ * @param options
+ * @param options.url
+ * @param options.username
+ * @param options.appPassword
+ * @param options.depth
+ */
 async function propfind(options: {
   url: URL;
   username: string;
@@ -175,9 +228,7 @@ async function propfind(options: {
   });
 
   if (!response.ok) {
-    throw new Error(
-      `PROPFIND failed (${response.status}) for ${url}: ${xmlText}`
-    );
+    throw new Error(`PROPFIND failed (${response.status}) for ${url}: ${xmlText}`);
   }
 
   const parser = new XMLParser({
@@ -199,28 +250,30 @@ async function propfind(options: {
   const items = responses
     .map((item) => {
       const href = String((item as { href?: unknown }).href ?? "");
-      const propstat = selectOkPropstat(
-        (item as { propstat?: unknown }).propstat
-      );
+      const propstat = selectOkPropstat((item as { propstat?: unknown }).propstat);
       const prop = (propstat?.prop ?? {}) as Record<string, unknown>;
       const resourcetype = prop.resourcetype;
       const isCollection =
-        !!resourcetype &&
-        typeof resourcetype === "object" &&
-        "collection" in resourcetype;
+        !!resourcetype && typeof resourcetype === "object" && "collection" in resourcetype;
       return { href, isCollection };
     })
     .filter((item) => item.href.length > 0);
 
   if (isDebugEnabled()) {
-    process.stdout.write(
-      `PROPFIND ${url} depth=${depth} -> ${items.length} items\n`
-    );
+    process.stdout.write(`PROPFIND ${url} depth=${depth} -> ${items.length} items\n`);
   }
 
   return items;
 }
 
+/**
+ *
+ * @param options
+ * @param options.url
+ * @param options.username
+ * @param options.appPassword
+ * @param options.destinationPath
+ */
 async function downloadFile(options: {
   url: URL;
   username: string;
@@ -244,20 +297,30 @@ async function downloadFile(options: {
   await fs.writeFile(destinationPath, content, "utf8");
 }
 
-function toRelativePath(options: {
-  baseUrl: URL;
-  href: string;
-}): string | null {
+/**
+ *
+ * @param options
+ * @param options.baseUrl
+ * @param options.href
+ */
+function toRelativePath(options: { baseUrl: URL; href: string }): string | null {
   const { baseUrl, href } = options;
   const fullUrl = new URL(href, baseUrl);
-  const basePath = baseUrl.pathname.endsWith("/")
-    ? baseUrl.pathname
-    : `${baseUrl.pathname}/`;
+  const basePath = baseUrl.pathname.endsWith("/") ? baseUrl.pathname : `${baseUrl.pathname}/`;
   if (!fullUrl.pathname.startsWith(basePath)) return null;
   const encodedRelativePath = fullUrl.pathname.slice(basePath.length);
   return decodeURIComponent(encodedRelativePath);
 }
 
+/**
+ *
+ * @param options
+ * @param options.baseUrl
+ * @param options.currentUrl
+ * @param options.username
+ * @param options.appPassword
+ * @param options.destinationDir
+ */
 async function walkAndDownload(options: {
   baseUrl: URL;
   currentUrl: URL;
@@ -265,8 +328,7 @@ async function walkAndDownload(options: {
   appPassword: string;
   destinationDir: string;
 }): Promise<void> {
-  const { baseUrl, currentUrl, username, appPassword, destinationDir } =
-    options;
+  const { baseUrl, currentUrl, username, appPassword, destinationDir } = options;
   const items = await propfind({
     url: currentUrl,
     username,
@@ -312,6 +374,14 @@ async function walkAndDownload(options: {
   }
 }
 
+/**
+ *
+ * @param options
+ * @param options.rootUrl
+ * @param options.username
+ * @param options.appPassword
+ * @param options.destinationDir
+ */
 export async function downloadMarkdownTree(options: {
   rootUrl: URL;
   username: string;

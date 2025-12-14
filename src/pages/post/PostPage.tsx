@@ -4,12 +4,19 @@ import { fetchPostMarkdown, fetchPostsIndex } from "../../shared/contentApi";
 import type { PostIndexItem } from "../../shared/types";
 import { AppShell } from "../../shared/AppShell";
 
+/**
+ *
+ */
 function getSlugFromLocation(): string | null {
   const params = new URLSearchParams(window.location.search);
   const slug = params.get("slug");
   return slug && slug.trim().length > 0 ? slug : null;
 }
 
+/**
+ *
+ * @param slug
+ */
 function usePostContent(slug: string | null) {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
@@ -19,6 +26,9 @@ function usePostContent(slug: string | null) {
   React.useEffect(() => {
     let cancelled = false;
 
+    /**
+     *
+     */
     async function run() {
       if (!slug) {
         setError("Missing slug");

@@ -35,25 +35,21 @@ Convert a PRD document into:
 When given a PRD or feature request, follow this sequence:
 
 1. PRD DIGEST (understanding)
-
    - Summarize goals, users, and key scenarios.
    - Extract explicit requirements and constraints.
    - List open questions and assumptions.
 
 2. SCOPE & BOUNDARIES
-
    - In-scope / Out-of-scope
    - Non-goals
    - Success metrics (if missing, propose measurable candidates)
 
 3. ARCHITECTURE SKETCH (high-level)
-
    - Components involved (frontend/backend/services/data/infra)
    - Data flow & integration points
    - Key technical decisions (with options if uncertain)
 
 4. BREAKDOWN
-
    - Epics -> User stories -> Work packages (tickets)
    - Each ticket MUST include:
      - Title

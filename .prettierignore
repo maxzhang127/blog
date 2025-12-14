@@ -1,0 +1,32 @@
+# 依赖
+node_modules/
+
+# 构建产物
+dist/
+.vite/
+
+# 缓存
+.cache/
+*.log
+
+# 临时文件
+*.tmp
+*.temp
+
+# 内容文件（从 WebDAV 获取）
+posts/
+
+# 生成的内容
+public/content/
+
+# IDE
+.vscode/
+.idea/
+
+# 环境变量
+.env
+.env.local
+.env.*.local
+
+# package-lock.json 不需要格式化
+package-lock.json

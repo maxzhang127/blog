@@ -13,6 +13,7 @@ export async function fetchPostsIndex(): Promise<PostsIndex> {
 
 /**
  * Fetches raw markdown content for a post.
+ * @param post
  */
 export async function fetchPostMarkdown(post: PostIndexItem): Promise<string> {
   const response = await fetch(`/content/posts/${post.sourcePath}`);
@@ -21,4 +22,3 @@ export async function fetchPostMarkdown(post: PostIndexItem): Promise<string> {
   }
   return await response.text();
 }
-

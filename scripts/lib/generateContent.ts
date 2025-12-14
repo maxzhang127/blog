@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import { atomicReplaceDirectory } from "./atomicReplaceDirectory";
+import { toIsoDate, asOptionalString, asOptionalStringArray } from "./validators";
 
 type PostFrontMatter = {
   title?: unknown;
@@ -31,44 +32,16 @@ type PostsIndex = {
   posts: PostIndexItem[];
 };
 
-function toIsoDate(
-  value: unknown,
-  fieldName: string,
-  filePath: string
-): string {
-  if (value instanceof Date) {
-    if (Number.isNaN(value.getTime())) {
-      throw new Error(`${filePath}: invalid ${fieldName} date`);
-    }
-    return value.toISOString();
-  }
-
-  if (typeof value !== "string" || value.trim().length === 0) {
-    throw new Error(`${filePath}: missing or invalid ${fieldName}`);
-  }
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    throw new Error(`${filePath}: invalid ${fieldName} date: ${value}`);
-  }
-  return date.toISOString();
-}
-
-function asOptionalString(value: unknown): string | undefined {
-  return typeof value === "string" && value.trim().length > 0
-    ? value.trim()
-    : undefined;
-}
-
-function asOptionalStringArray(value: unknown): string[] | undefined {
-  if (!Array.isArray(value)) return undefined;
-  const strings = value
-    .filter((item) => typeof item === "string")
-    .map((item) => item.trim());
-  return strings.length > 0 ? strings : undefined;
-}
-
+/**
+ *
+ * @param rootDir
+ */
 async function listMarkdownFiles(rootDir: string): Promise<string[]> {
   const results: string[] = [];
+  /**
+   *
+   * @param dir
+   */
   async function walk(dir: string) {
     const entries = await fs.readdir(dir, { withFileTypes: true });
     for (const entry of entries) {
@@ -86,9 +59,12 @@ async function listMarkdownFiles(rootDir: string): Promise<string[]> {
   return results.sort();
 }
 
-export async function generateContent(options: {
-  repoRoot: string;
-}): Promise<void> {
+/**
+ *
+ * @param options
+ * @param options.repoRoot
+ */
+export async function generateContent(options: { repoRoot: string }): Promise<void> {
   const { repoRoot } = options;
   const localPostsDirName = process.env.LOCAL_POSTS_DIR ?? "posts";
   const postsDir = path.join(repoRoot, localPostsDirName);
@@ -131,9 +107,7 @@ export async function generateContent(options: {
     }
 
     if (slugToFile.has(slug)) {
-      throw new Error(
-        `slug conflict: ${slug} (${slugToFile.get(slug)} vs ${relativePath})`
-      );
+      throw new Error(`slug conflict: ${slug} (${slugToFile.get(slug)} vs ${relativePath})`);
     }
     slugToFile.set(slug, relativePath);
 

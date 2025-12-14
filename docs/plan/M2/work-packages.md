@@ -29,7 +29,7 @@
   - [ ] 空态与 404 策略：不存在 tag 时返回 404 或空态（规则固定）。
 - Acceptance Criteria
   - Given 任意存在的 tag，When 访问标签详情页，Then 展示对应文章并可跳转详情页。
-- Dependencies：M2-T1-01；列表组件（M1-T4-*）。
+- Dependencies：M2-T1-01；列表组件（M1-T4-\*）。
 - Risks：tag 字符导致 URL 不合法；缓解为定义 slugify 规则并在生成阶段统一编码。
 - Owner Role：FE
 - Estimate：M；Confidence：Med
@@ -43,7 +43,7 @@
   - [ ] 空态与 404 策略固定。
 - Acceptance Criteria
   - Given 任意 category，When 访问分类详情页，Then 展示对应文章并可进入详情页。
-- Dependencies：M2-T1-01；列表组件（M1-T4-*）。
+- Dependencies：M2-T1-01；列表组件（M1-T4-\*）。
 - Risks：分类为空导致页面无意义；缓解为分类为空时入口展示空态并提示内容规范。
 - Owner Role：FE
 - Estimate：M；Confidence：Med
@@ -168,4 +168,3 @@
 - Risks：文档与实现偏离；缓解为将 README 更新纳入发布前检查清单。
 - Owner Role：FE/DevOps
 - Estimate：S；Confidence：High
-

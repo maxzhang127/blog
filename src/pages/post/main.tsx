@@ -7,6 +7,5 @@ import { PostPage } from "./PostPage";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <PostPage />
-  </React.StrictMode>,
+  </React.StrictMode>
 );
-

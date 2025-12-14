@@ -7,6 +7,9 @@ import { generateContent } from "./lib/generateContent";
 
 const repoRoot = fileURLToPath(new URL("..", import.meta.url));
 
+/**
+ *
+ */
 async function main() {
   dotenv.config({ path: path.join(repoRoot, ".env.local") });
   await generateContent({ repoRoot });

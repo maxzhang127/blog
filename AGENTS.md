@@ -16,9 +16,10 @@ This document is a concise guide for contributors working on the Nextcloud WebDA
 
 ## Current Repo Status (as-is)
 
-- This repository is currently documentation/plan-first. There is no application scaffold yet (no `package.json`, no framework config).
+- This repository has a functional blog application with Vite + React + TypeScript stack.
+- WebDAV-powered content fetching and build system is implemented.
 - `docs/` contains the PRD and milestone plan (`docs/prd.md`, `docs/plan/`).
-- `src/` is reserved for application code; it currently only contains `src/AGENTS.md`.
+- `src/` contains the React application code with multiple page entries.
 
 ## Scoped `AGENTS.md`
 
@@ -34,17 +35,17 @@ This document is a concise guide for contributors working on the Nextcloud WebDA
 
 ## Build, Test, and Development Commands
 
-There is no Node/app scaffold yet. Once `package.json` exists, keep the standard workflow working (add scripts if missing):
+Current available commands:
 
 ```
 npm install          # install dependencies
-npm run dev          # start local dev server
-npm run lint         # ESLint + formatting checks
-npm test             # unit/component tests
-npm run build        # production build
+npm run dev          # start Vite dev server
+npm run fetch        # fetch content from Nextcloud WebDAV
+npm run build        # generate content and build production bundle
+npm run preview      # preview production build locally
 ```
 
-Document any additional one-off scripts in `scripts/` with inline usage notes.
+Additional scripts in `scripts/` handle WebDAV content fetching and atomic file operations.
 
 ## Coding Style & Naming Conventions
 

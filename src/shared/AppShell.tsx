@@ -5,6 +5,7 @@ import React from "react";
 
 /**
  * Shared layout wrapper for multi-page entries.
+ * @param props
  */
 export function AppShell(props: PropsWithChildren<{ activeKey: "home" | "posts" }>) {
   const items: MenuProps["items"] = [
@@ -33,4 +34,3 @@ export function AppShell(props: PropsWithChildren<{ activeKey: "home" | "posts" 
     </Layout>
   );
 }
-

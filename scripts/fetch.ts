@@ -7,6 +7,10 @@ import { downloadMarkdownTree } from "./lib/downloadMarkdownTree";
 
 const repoRoot = fileURLToPath(new URL("..", import.meta.url));
 
+/**
+ *
+ * @param name
+ */
 function requiredEnv(name: string): string {
   const value = process.env[name];
   if (!value) {
@@ -15,6 +19,10 @@ function requiredEnv(name: string): string {
   return value;
 }
 
+/**
+ *
+ * @param url
+ */
 function normalizeDirectoryUrl(url: URL): URL {
   const copy = new URL(url);
   if (!copy.pathname.endsWith("/")) {
@@ -23,6 +31,10 @@ function normalizeDirectoryUrl(url: URL): URL {
   return copy;
 }
 
+/**
+ *
+ * @param subdir
+ */
 function normalizeSubdir(subdir: string): string {
   const trimmed = subdir.trim();
   if (trimmed === "" || trimmed === "." || trimmed === "./") return "";
@@ -30,17 +42,16 @@ function normalizeSubdir(subdir: string): string {
   const withoutLeadingSlash = trimmed.replace(/^\/+/, "");
   if (withoutLeadingSlash === "") return "";
 
-  return withoutLeadingSlash.endsWith("/")
-    ? withoutLeadingSlash
-    : `${withoutLeadingSlash}/`;
+  return withoutLeadingSlash.endsWith("/") ? withoutLeadingSlash : `${withoutLeadingSlash}/`;
 }
 
+/**
+ *
+ */
 async function main() {
   dotenv.config({ path: path.join(repoRoot, ".env.local") });
 
-  const blogWebdavUrl = normalizeDirectoryUrl(
-    new URL(requiredEnv("NEXTCLOUD_BLOG_WEBDAV_URL"))
-  );
+  const blogWebdavUrl = normalizeDirectoryUrl(new URL(requiredEnv("NEXTCLOUD_BLOG_WEBDAV_URL")));
   if (blogWebdavUrl.username || blogWebdavUrl.password) {
     throw new Error(
       "NEXTCLOUD_BLOG_WEBDAV_URL must not include credentials (use NEXTCLOUD_USERNAME / NEXTCLOUD_APP_PASSWORD)."
@@ -49,9 +60,7 @@ async function main() {
 
   const username = requiredEnv("NEXTCLOUD_USERNAME");
   const appPassword = requiredEnv("NEXTCLOUD_APP_PASSWORD");
-  const postsSubdir = normalizeSubdir(
-    process.env.NEXTCLOUD_POSTS_SUBDIR ?? "posts/"
-  );
+  const postsSubdir = normalizeSubdir(process.env.NEXTCLOUD_POSTS_SUBDIR ?? "posts/");
   const localPostsDirName = process.env.LOCAL_POSTS_DIR ?? "posts";
 
   const postsWebdavUrl = new URL(postsSubdir, blogWebdavUrl);
@@ -75,8 +84,7 @@ async function main() {
     backupDir,
   });
 
-  const postsRelative =
-    path.relative(process.cwd(), localPostsDir) || localPostsDirName;
+  const postsRelative = path.relative(process.cwd(), localPostsDir) || localPostsDirName;
   process.stdout.write(`Fetched posts to ${postsRelative}\n`);
 }
 
