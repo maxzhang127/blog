@@ -68,7 +68,7 @@
 
 - 博客根目录（示例）：`/remote.php/dav/files/{username}/blog/`
 - 目录：
-  - `posts/`：文章目录（站点只读展示的唯一文章来源）
+  - `posts/`：Nextcloud 中的文章目录（站点只读展示的唯一文章来源，构建时下载到本地 `content/` 目录）
   - `assets/`：图片与附件目录
 
 ### 4.2 文件命名与路由

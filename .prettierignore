@@ -14,7 +14,7 @@ dist/
 *.temp
 
 # 内容文件（从 WebDAV 获取）
-posts/
+/content/
 
 # 生成的内容
 public/content/

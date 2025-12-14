@@ -58,7 +58,7 @@ npm run test:ui
   - 嵌套目录中的文章处理
   - 可选字段缺失的情况
 - **错误场景**：
-  - posts 目录不存在或为空
+  - content 目录不存在或为空
   - 缺少必填字段（title/slug/createdAt）
   - 日期格式无效
   - slug 冲突

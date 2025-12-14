@@ -7,6 +7,7 @@
     "dev": "vite --config vite.config.ts",
     "fetch": "node --import tsx scripts/fetch.ts",
     "build": "node --import tsx scripts/build.ts",
+    "deploy": "node --import tsx scripts/deploy.ts",
     "preview": "vite preview --config vite.config.ts",
     "test": "vitest run",
     "test:watch": "vitest",

@@ -95,9 +95,9 @@ dist.__backup__
 
 # Generated blog content & fetched sources
 public/content
-posts
-posts.__tmp__
-posts.__backup__
+/content
+/content.__tmp__
+/content.__backup__
 
 # vuepress build output
 .vuepress/dist

@@ -66,7 +66,7 @@ async function listMarkdownFiles(rootDir: string): Promise<string[]> {
  */
 export async function generateContent(options: { repoRoot: string }): Promise<void> {
   const { repoRoot } = options;
-  const localPostsDirName = process.env.LOCAL_POSTS_DIR ?? "posts";
+  const localPostsDirName = process.env.LOCAL_POSTS_DIR ?? "content";
   const postsDir = path.join(repoRoot, localPostsDirName);
 
   try {

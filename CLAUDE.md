@@ -8,14 +8,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npm install                 # 安装依赖
 npm run fetch              # 从 Nextcloud WebDAV 获取内容（需要配置 .env.local）
 npm run build              # 执行完整构建流程（包括内容生成和 Vite 构建）
+npm run deploy             # 部署 dist 文件夹到服务器（需要配置 .env.local）
 npm run dev                # 启动开发服务器
 npm run preview            # 预览构建产物
 ```
 
-构建流程说明：
+构建和部署流程说明：
 
-- `npm run fetch` 从配置的 Nextcloud WebDAV 下载 Markdown 文档到本地 `posts/` 目录
+- `npm run fetch` 从配置的 Nextcloud WebDAV 下载 Markdown 文档到本地 `content/` 目录
 - `npm run build` 先生成内容索引，再执行 Vite 构建，输出到 `dist/`
+- `npm run deploy` 使用 rsync over SSH 增量同步 `dist/` 到远程服务器（仅上传变化的文件）
 
 ## 项目架构
 
@@ -58,17 +60,29 @@ scripts/               # 构建脚本
 
 ## 环境配置
 
-复制 `.env.example` 为 `.env.local` 并配置 Nextcloud WebDAV 信息：
+复制 `.env.example` 为 `.env.local` 并配置相应信息：
 
 ```bash
 cp .env.example .env.local
 ```
 
-必需的环境变量：
+### 内容获取（必需）
+
+用于 `npm run fetch` 从 Nextcloud WebDAV 拉取内容：
 
 - `NEXTCLOUD_BLOG_WEBDAV_URL`: WebDAV 端点 URL（不包含认证信息）
 - `NEXTCLOUD_USERNAME`: Nextcloud 用户名
 - `NEXTCLOUD_APP_PASSWORD`: Nextcloud 应用专用密码
+
+### 部署配置（可选）
+
+用于 `npm run deploy` 部署到远程服务器：
+
+- `DEPLOY_HOST`: 服务器地址或 IP（必需）
+- `DEPLOY_USER`: SSH 用户名（必需）
+- `DEPLOY_PATH`: 服务器上的目标路径（必需）
+- `DEPLOY_PORT`: SSH 端口，默认 22（可选）
+- `DEPLOY_SSH_KEY_PATH`: SSH 私钥路径（可选，不设置则使用默认密钥）
 
 ## 开发约定
 
@@ -97,6 +111,16 @@ cp .env.example .env.local
 - 内容获取和构建需要分两步执行：先 `npm run fetch` 再 `npm run build`
 - 构建产物部署到静态服务器（如 Nginx）
 - 项目使用中文作为主要交流语言
+
+### Windows 用户部署说明
+
+`npm run deploy` 依赖 `rsync` 命令，Windows 用户需要确保系统中已安装 rsync：
+
+1. **Git Bash（推荐）**: Git for Windows 自带 rsync，在 Git Bash 中运行 `npm run deploy`
+2. **WSL2**: 在 WSL2 环境中运行（需要配置 SSH 密钥）
+3. **Cygwin**: 安装 Cygwin 并添加 rsync 包
+
+如果无法使用 rsync，可以手动使用 FTP/SFTP 客户端（如 FileZilla）上传 `dist/` 文件夹
 
 ## 编码规范
 

@@ -100,7 +100,7 @@ npm run test:watch
 由于 CI 环境中没有 WebDAV 凭证，工作流会自动创建一个最小的测试文章：
 
 - 包含所有必填字段（title、slug、createdAt）
-- 放置在 `posts/` 目录
+- 放置在 `content/` 目录
 - 用于验证构建流程
 
 #### 3.2 执行构建
@@ -172,8 +172,8 @@ npm run build
 ### 创建测试 fixture（用于本地构建测试）
 
 ```bash
-mkdir -p posts
-cat > posts/test-post.md << 'EOF'
+mkdir -p content
+cat > content/test-post.md << 'EOF'
 ---
 title: 测试文章
 slug: test-post
@@ -229,7 +229,7 @@ concurrency:
 
 A: 可能原因：
 
-1. 本地缺少 `posts/` 目录（运行 `npm run fetch` 或创建测试 fixture）
+1. 本地缺少 `content/` 目录（运行 `npm run fetch` 或创建测试 fixture）
 2. Node.js 版本不一致（CI 使用 18.19.0，见 `package.json` engines 字段）
 3. 依赖版本不一致（删除 `node_modules` 和 `package-lock.json` 重新安装）
 

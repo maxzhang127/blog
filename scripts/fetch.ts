@@ -61,7 +61,7 @@ async function main() {
   const username = requiredEnv("NEXTCLOUD_USERNAME");
   const appPassword = requiredEnv("NEXTCLOUD_APP_PASSWORD");
   const postsSubdir = normalizeSubdir(process.env.NEXTCLOUD_POSTS_SUBDIR ?? "posts/");
-  const localPostsDirName = process.env.LOCAL_POSTS_DIR ?? "posts";
+  const localPostsDirName = process.env.LOCAL_POSTS_DIR ?? "content";
 
   const postsWebdavUrl = new URL(postsSubdir, blogWebdavUrl);
   const localPostsDir = path.join(repoRoot, localPostsDirName);

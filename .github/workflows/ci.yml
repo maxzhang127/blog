@@ -92,8 +92,8 @@ jobs:
 
       - name: 创建测试用 fixture 内容
         run: |
-          mkdir -p posts
-          cat > posts/test-post.md << 'EOF'
+          mkdir -p content
+          cat > content/test-post.md << 'EOF'
           ---
           title: 测试文章
           slug: test-post

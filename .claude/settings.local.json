@@ -16,7 +16,11 @@
       "Bash(npm run format:check:*)",
       "Bash(rm:*)",
       "Bash(findstr:*)",
-      "Bash(npm run preview:*)"
+      "Bash(npm run preview:*)",
+      "Bash(if [ -d posts ])",
+      "Bash(then mv posts content)",
+      "Bash(else echo \"posts/ directory does not exist\")",
+      "Bash(fi)"
     ]
   }
 }

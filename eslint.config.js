@@ -18,7 +18,7 @@ export default [
       "*.log",
       "*.tmp",
       "*.temp",
-      "posts/**",
+      "content/**",
       "public/content/**",
       ".vscode/**",
       ".idea/**",
