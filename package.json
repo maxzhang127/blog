@@ -8,6 +8,7 @@
     "fetch": "node --import tsx scripts/fetch.ts",
     "build": "node --import tsx scripts/build.ts",
     "deploy": "node --import tsx scripts/deploy.ts",
+    "release": "npm run fetch && npm run build && npm run deploy",
     "preview": "vite preview --config vite.config.ts",
     "test": "vitest run",
     "test:watch": "vitest",
