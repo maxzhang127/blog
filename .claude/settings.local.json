@@ -14,7 +14,9 @@
       "Bash(npm test:*)",
       "Bash(npx tsc:*)",
       "Bash(npm run format:check:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(findstr:*)",
+      "Bash(npm run preview:*)"
     ]
   }
 }

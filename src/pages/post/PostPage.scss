@@ -1,0 +1,21 @@
+.post-content-card {
+  min-height: 400px;
+
+  :global {
+    .ant-card-body {
+      padding: 40px;
+
+      @media (max-width: 768px) {
+        padding: 24px;
+      }
+    }
+  }
+}
+
+// 优化整体页面布局
+:global {
+  .post-page-layout {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+}

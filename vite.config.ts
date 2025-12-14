@@ -10,6 +10,13 @@ export default defineConfig({
   root: srcRoot,
   plugins: [react()],
   publicDir: path.join(repoRoot, "public"),
+  css: {
+    preprocessorOptions: {
+      scss: {
+        silenceDeprecations: ["legacy-js-api"],
+      },
+    },
+  },
   build: {
     outDir: path.join(repoRoot, "dist"),
     emptyOutDir: true,

@@ -1,0 +1,124 @@
+.footer {
+  margin-top: 64px;
+  padding: 32px 0;
+  background-color: #fafafa;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .footer-section {
+    text-align: center;
+
+    .copyright {
+      margin: 0;
+      color: rgba(0, 0, 0, 0.65);
+      font-size: 14px;
+    }
+  }
+
+  // 统计信息
+  .stats {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .stat-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(0, 0, 0, 0.65);
+      font-size: 14px;
+
+      .stat-icon {
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.45);
+      }
+
+      .stat-number {
+        font-weight: 600;
+        color: #1677ff;
+      }
+    }
+  }
+
+  // 备案信息
+  .beian-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+
+    .beian-item {
+      a {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: rgba(0, 0, 0, 0.65);
+        font-size: 13px;
+        text-decoration: none;
+        transition: color 0.3s;
+
+        &:hover {
+          color: #1677ff;
+        }
+
+        .beian-icon {
+          width: 16px;
+          height: 16px;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+
+  // 响应式布局
+  @media (min-width: 768px) {
+    .footer-content {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .footer-section {
+      flex: 1;
+      text-align: left;
+
+      &:nth-child(2) {
+        text-align: center;
+      }
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+
+    .beian-info {
+      align-items: flex-end;
+    }
+
+    .stats {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 767px) {
+    margin-top: 48px;
+    padding: 24px 0;
+
+    .stats {
+      gap: 16px;
+    }
+  }
+}

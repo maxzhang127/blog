@@ -1,36 +1,49 @@
-import { Layout, Menu, Typography } from "antd";
-import type { MenuProps } from "antd";
+import { Layout } from "antd";
 import type { PropsWithChildren } from "react";
 import React from "react";
+import { Footer } from "./Footer";
+import "./AppShell.scss";
 
 /**
  * Shared layout wrapper for multi-page entries.
  * @param props
  */
 export function AppShell(props: PropsWithChildren<{ activeKey: "home" | "posts" }>) {
-  const items: MenuProps["items"] = [
-    { key: "home", label: <a href="/">首页</a> },
-    { key: "posts", label: <a href="/posts/">文章</a> },
-  ];
-
   return (
-    <Layout style={{ minHeight: "100vh" }}>
-      <Layout.Header style={{ display: "flex", alignItems: "center" }}>
-        <Typography.Title level={4} style={{ color: "#fff", margin: "0 24px 0 0" }}>
-          blog
-        </Typography.Title>
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          selectedKeys={[props.activeKey]}
-          items={items}
-          style={{ flex: 1 }}
-        />
+    <Layout style={{ minHeight: "100vh", background: "#ffffff" }}>
+      <Layout.Header className="app-header">
+        <div className="header-container">
+          <a href="/" className="logo">
+            <div className="logo-icon">
+              <span className="logo-text">{"</>"}</span>
+            </div>
+            <span className="logo-name">BLOG</span>
+          </a>
+
+          <nav className="nav">
+            <a
+              href="/"
+              className={`nav-link ${props.activeKey === "home" ? "active" : ""}`}
+            >
+              首页
+            </a>
+            <a
+              href="/posts/"
+              className={`nav-link ${props.activeKey === "posts" ? "active" : ""}`}
+            >
+              文章
+            </a>
+          </nav>
+        </div>
       </Layout.Header>
-      <Layout.Content>
-        <div className="content">{props.children}</div>
+
+      <Layout.Content className="app-content">
+        <div className="content-wrapper">{props.children}</div>
       </Layout.Content>
-      <Layout.Footer style={{ textAlign: "center" }}>blog</Layout.Footer>
+
+      <Layout.Footer style={{ padding: 0, background: "transparent" }}>
+        <Footer />
+      </Layout.Footer>
     </Layout>
   );
 }

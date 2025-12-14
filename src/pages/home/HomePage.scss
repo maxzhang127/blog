@@ -1,0 +1,305 @@
+.home-page {
+  // Hero Section
+  .hero {
+    position: relative;
+    padding: 80px 0 120px;
+    overflow: hidden;
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(22, 119, 255, 0.1);
+      border: 1px solid rgba(22, 119, 255, 0.2);
+      border-radius: 20px;
+      font-size: 14px;
+      color: #1677ff;
+      font-weight: 500;
+      margin-bottom: 32px;
+
+      .badge-icon {
+        font-size: 16px;
+      }
+    }
+
+    .hero-title {
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0 0 24px;
+      background: linear-gradient(135deg, #1677ff 0%, #00b96b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+
+      .title-cursor {
+        display: inline-block;
+        animation: blink 1s infinite;
+        color: #1677ff;
+        -webkit-text-fill-color: #1677ff;
+      }
+    }
+
+    .hero-description {
+      font-size: 18px;
+      line-height: 1.8;
+      color: rgba(0, 0, 0, 0.65);
+      margin: 0 0 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+
+      .btn-primary {
+        height: 48px;
+        padding: 0 32px;
+        font-size: 16px;
+        font-weight: 500;
+        border-radius: 8px;
+      }
+    }
+
+    // Decorative Elements
+    .hero-decoration {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+
+      .deco-grid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        opacity: 0.5;
+      }
+
+      .deco-circle {
+        position: absolute;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(22, 119, 255, 0.1), rgba(0, 185, 107, 0.1));
+        filter: blur(60px);
+        animation: float 8s ease-in-out infinite;
+      }
+
+      .circle-1 {
+        width: 400px;
+        height: 400px;
+        top: -100px;
+        left: -100px;
+      }
+
+      .circle-2 {
+        width: 300px;
+        height: 300px;
+        bottom: -50px;
+        right: -50px;
+        animation-delay: -4s;
+      }
+    }
+
+    @media (max-width: 768px) {
+      padding: 60px 0 80px;
+
+      .hero-title {
+        font-size: 36px;
+      }
+
+      .hero-description {
+        font-size: 16px;
+      }
+    }
+  }
+
+  // Latest Posts Section
+  .latest-posts {
+    padding: 60px 0;
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+
+      .section-title {
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0;
+        color: rgba(0, 0, 0, 0.88);
+      }
+
+      .view-all {
+        font-size: 14px;
+        color: #1677ff;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        transition: gap 0.2s;
+
+        &:hover {
+          gap: 8px;
+        }
+      }
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .post-card {
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+        border-color: rgba(22, 119, 255, 0.2);
+      }
+
+      :global {
+        .ant-card-body {
+          padding: 24px;
+        }
+      }
+    }
+
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card-header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.88);
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+
+    .card-date {
+      font-size: 13px;
+      color: rgba(0, 0, 0, 0.45);
+    }
+
+    .card-summary {
+      font-size: 14px;
+      line-height: 1.6;
+      color: rgba(0, 0, 0, 0.65);
+      margin: 0;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .card-category {
+      padding: 4px 12px;
+      background: rgba(22, 119, 255, 0.1);
+      color: #1677ff;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .card-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+
+      .tag {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.45);
+      }
+    }
+
+    .loading-text,
+    .empty-text {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 0;
+      color: rgba(0, 0, 0, 0.45);
+      font-size: 14px;
+    }
+  }
+}
+
+// Animations
+@keyframes blink {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(20px, -20px);
+  }
+  50% {
+    transform: translate(-10px, 10px);
+  }
+  75% {
+    transform: translate(15px, 5px);
+  }
+}

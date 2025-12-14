@@ -1,8 +1,13 @@
-import { Alert, Button, Card, Space, Spin, Typography } from "antd";
+import { Alert, Button, Card, Col, Row, Space, Spin, Tag, Typography } from "antd";
 import React from "react";
 import { fetchPostMarkdown, fetchPostsIndex } from "../../shared/contentApi";
 import type { PostIndexItem } from "../../shared/types";
 import { AppShell } from "../../shared/AppShell";
+import { MarkdownRenderer } from "../../shared/MarkdownRenderer";
+import { TableOfContents } from "../../shared/TableOfContents";
+import { extractToc } from "../../shared/extractToc";
+import { formatDate } from "../../shared/formatDate";
+import "./PostPage.scss";
 
 /**
  *
@@ -71,27 +76,74 @@ export function PostPage() {
   const slug = getSlugFromLocation();
   const { loading, error, post, markdown } = usePostContent(slug);
 
+  // 从Markdown提取TOC
+  const tocItems = React.useMemo(() => {
+    if (!markdown) return [];
+    return extractToc(markdown);
+  }, [markdown]);
+
   return (
     <AppShell activeKey="posts">
       <Space direction="vertical" size={16} style={{ width: "100%" }}>
+        {/* 文章头部 */}
         <Card>
           <Space direction="vertical" size={8} style={{ width: "100%" }}>
             <Button href="/posts/">返回列表</Button>
             <Typography.Title level={2} style={{ marginTop: 0 }}>
               {post?.title ?? "文章"}
             </Typography.Title>
-            {post?.createdAt ? (
-              <Typography.Text type="secondary">{post.createdAt}</Typography.Text>
+
+            {/* 元信息 */}
+            <Space size={12} wrap>
+              {post?.createdAt ? (
+                <Typography.Text type="secondary">
+                  发布于 {formatDate(post.createdAt)}
+                </Typography.Text>
+              ) : null}
+              {post?.updatedAt ? (
+                <Typography.Text type="secondary">
+                  更新于 {formatDate(post.updatedAt)}
+                </Typography.Text>
+              ) : null}
+              {post?.category ? <Tag color="blue">{post.category}</Tag> : null}
+              {post?.tags?.map((tag) => (
+                <Tag key={tag}>{tag}</Tag>
+              ))}
+            </Space>
+
+            {/* 摘要 */}
+            {post?.summary ? (
+              <Typography.Paragraph type="secondary" style={{ marginTop: 8 }}>
+                {post.summary}
+              </Typography.Paragraph>
             ) : null}
           </Space>
         </Card>
 
-        {loading ? <Spin /> : null}
-        {error ? <Alert type="error" message="加载失败" description={error} /> : null}
-        {!loading && !error ? (
+        {/* 加载和错误状态 */}
+        {loading ? (
           <Card>
-            <pre className="markdown">{markdown}</pre>
+            <Spin tip="加载中..." />
           </Card>
+        ) : null}
+        {error ? (
+          <Alert type="error" message="加载失败" description={error} />
+        ) : null}
+
+        {/* 正文内容 + TOC */}
+        {!loading && !error ? (
+          <Row gutter={[24, 24]}>
+            <Col xs={24} xl={18}>
+              <Card className="post-content-card">
+                <MarkdownRenderer content={markdown} />
+              </Card>
+            </Col>
+            {tocItems.length > 0 ? (
+              <Col xs={0} xl={6}>
+                <TableOfContents items={tocItems} />
+              </Col>
+            ) : null}
+          </Row>
         ) : null}
       </Space>
     </AppShell>

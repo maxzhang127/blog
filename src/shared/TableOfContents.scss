@@ -1,0 +1,73 @@
+.table-of-contents {
+  position: sticky;
+  top: 24px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  padding: 20px;
+  background-color: #fafafa;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+
+  // 自定义滚动条样式
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+
+  .toc-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.88);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .toc-anchor {
+    background-color: transparent;
+
+    :global {
+      .ant-anchor-link {
+        padding: 4px 0;
+      }
+
+      .ant-anchor-link-title {
+        font-size: 13px;
+        color: rgba(0, 0, 0, 0.65);
+        line-height: 1.5;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &:hover {
+          color: #1677ff;
+        }
+      }
+
+      .ant-anchor-link-active > .ant-anchor-link-title {
+        color: #1677ff;
+        font-weight: 500;
+      }
+
+      .ant-anchor-ink {
+        &::before {
+          background-color: rgba(0, 0, 0, 0.06);
+        }
+      }
+
+      .ant-anchor-ink-ball {
+        background-color: #1677ff;
+      }
+    }
+  }
+
+  // 响应式：小屏幕隐藏TOC
+  @media (max-width: 1200px) {
+    display: none;
+  }
+}
